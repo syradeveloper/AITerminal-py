@@ -1,5 +1,8 @@
 import tkinter as tk
 import asyncio
+import traceback
+import sys, os
+from io import StringIO
 from libraries.ai import ArtificialInteligence
 
 class ConsoleWindow:
@@ -12,7 +15,16 @@ class ConsoleWindow:
         self.commands = {
             "help": (self.display_help, "Displays available commands and their descriptions"),
             "?": (self.ai_request, "Allows the user to send an AI request | Expect delays(lags) with response", "[prompt]"),
-            "clear": (self.clear_console, "Clears the console (or use ctrl+x to clear the console)"),
+            "echo": (self.echo_text, "Prints text to the console", "[text]"),
+            "cat": (self.display_file_content, "Displays the contents of a file", "[filename]"),
+            "mkdir": (self.make_directory, "Creates a new directory", "[dirname]"),
+            "rmdir": (self.remove_directory, "Removes an empty directory", "[dirname]"),
+            "rm": (self.remove_file, "Removes a file", "[filename]"),
+            "touch": (self.create_file, "Creates a new file", "[filename]"),
+            "ls": (self.list_directory, "Lists files and directories in the current directory"),
+            "cd": (self.change_directory, "Changes the current directory"),
+            "python": (self.run_python_code, "Executes Python code/Compile Python files", "[code] or [-c file.py]"),
+            "clear": (self.clear_console, "Clears the console (or use \"CTRL + X\" to clear)"),
             "exit": (self.exit_console, "Exits the console application"),
         }
         self.command_history = []
@@ -93,11 +105,95 @@ class ConsoleWindow:
     def print_to_console(self, message):
         self.write(message + "\n")
 
+    def list_directory(self, path="."):
+        try:
+            files = os.listdir(path)
+            return "\n".join(files) + "\n"
+        except Exception as e:
+            return f"Error: {str(e)}\n"
+
+    def display_file_content(self, filename):
+        try:
+            with open(filename, "r") as file:
+                content = file.read()
+            return content + "\n"
+        except Exception as e:
+            return f"Error: {str(e)}\n"
+
+    def echo_text(self, text):
+        return f"{text}\n"
+
+    def make_directory(self, dirname):
+        try:
+            os.mkdir(dirname)
+            return ""
+        except Exception as e:
+            return f"Error: {str(e)}\n"
+
+    def remove_directory(self, dirname):
+        try:
+            os.rmdir(dirname)
+            return ""
+        except Exception as e:
+            return f"Error: {str(e)}\n"
+
+    def remove_file(self, filename):
+        try:
+            os.remove(filename)
+            return ""
+        except Exception as e:
+            return f"Error: {str(e)}\n"
+
+    def create_file(self, filename):
+        try:
+            with open(filename, "w") as file:
+                pass
+            return ""
+        except Exception as e:
+            return f"Error: {str(e)}\n"
+
+
+    def change_directory(self, path=None):
+        try:
+            if not path:
+                return os.getcwd() + "\n"
+            elif path == "..":
+                os.chdir(os.path.dirname(os.getcwd()))
+                return os.getcwd() + "\n"
+            else:
+                os.chdir(path)
+                return os.getcwd() + "\n"
+        except Exception as e:
+            return f"Error: {str(e)}\n"
+
     def display_help(self):
         for command, (func, description, *args) in self.commands.items():
             args_str = ' '.join(args) if args else ''
             self.print_to_console(f"    {command} {args_str} :: {description}")
         return ""
+
+    def run_python_code(self, code):
+        try:
+            if code.startswith("-c "):
+                script_path = code[3:]
+                with open(script_path, "r") as script_file:
+                    script_content = script_file.read()
+                stdout_backup = sys.stdout
+                sys.stdout = StringIO()
+                exec(script_content)
+                result = sys.stdout.getvalue()
+                return result
+            else:
+                stdout_backup = sys.stdout
+                sys.stdout = StringIO()
+                exec(code)
+                result = sys.stdout.getvalue()
+                return result
+            return ""
+        except Exception as e:
+            return traceback.format_exc()
+        finally:
+            sys.stdout = stdout_backup
 
     def clear_console(self, event=None):
         self.text_area.configure(state="normal")
