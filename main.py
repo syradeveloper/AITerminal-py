@@ -1,4 +1,6 @@
 import tkinter as tk
+import asyncio
+from libraries.ai import ArtificialInteligence
 
 class ConsoleWindow:
     def __init__(self, root):
@@ -9,6 +11,7 @@ class ConsoleWindow:
         self.index = 0
         self.commands = {
             "help": (self.display_help, "Displays available commands and their descriptions"),
+            "?": (self.ai_request, "Allows the user to send an AI request | Expect delays(lags) with response", "{prompt}"),
             "clear": (self.clear_console, "Clears the console (or use ctrl+x to clear the console)"),
             "exit": (self.exit_console, "Exits the console application"),
         }
@@ -90,8 +93,9 @@ class ConsoleWindow:
         self.write(message + "\n")
 
     def display_help(self):
-        for command, (func, description) in self.commands.items():
-            self.print_to_console(f"    {command} :: {description}")
+        for command, (func, description, *args) in self.commands.items():
+            args_str = ' '.join(args) if args else ''
+            self.print_to_console(f"    {command} {args_str} :: {description}")
         return ""
 
     def clear_console(self, event=None):
@@ -100,9 +104,17 @@ class ConsoleWindow:
         self.text_area.configure(state="disabled")
         self.display_welcome_message()
         return ""
+    
+    def ai_request(self, command):
+        asyncio.run(self.process_text(command))
 
     def exit_console(self):
         self.root.destroy()
+
+    async def process_text(self, text):
+        model = ArtificialInteligence()
+        response = await model.generate_response(text)
+        self.print_to_console(response)
 
     def execute_command(self, event):
         command = self.input_entry.get()
@@ -120,7 +132,7 @@ class ConsoleWindow:
             if result is not None:
                 self.print_to_console(result)
         else:
-            self.print_to_console("Command not recognized. Type \"help\" for more information...\n")
+            self.print_to_console("Command is not found. Type \"help\" for more information...\n")
 
     def key_pressed(self, event):
         if event.keysym == "Up":
