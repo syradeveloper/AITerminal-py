@@ -6,12 +6,12 @@ class ConsoleWindow:
     def __init__(self, root):
         self.root = root
         self.create_widgets()
-        self.root.title("[2501] // Terminal")
+        self.root.title("[2501] // AiTerminal")
         self.text_to_display = ""
         self.index = 0
         self.commands = {
             "help": (self.display_help, "Displays available commands and their descriptions"),
-            "?": (self.ai_request, "Allows the user to send an AI request | Expect delays(lags) with response", "{prompt}"),
+            "?": (self.ai_request, "Allows the user to send an AI request | Expect delays(lags) with response", "[prompt]"),
             "clear": (self.clear_console, "Clears the console (or use ctrl+x to clear the console)"),
             "exit": (self.exit_console, "Exits the console application"),
         }
@@ -25,16 +25,16 @@ class ConsoleWindow:
         self.text_area = tk.Text(self.root, wrap="word", state="normal", height=25, width=120, bg="black", fg="white")
         self.text_area.pack(fill="both", expand=True)
         self.text_area.bind("<Key>", self.key_pressed)
-        self.text_area.focus_set()
 
         self.input_frame = tk.Frame(self.root, bg="black")
         self.input_frame.pack(fill="x")
 
-        self.input_label = tk.Label(self.input_frame, text="[2501] > ", fg="white", bg="black")
+        self.input_label = tk.Label(self.input_frame, text="Enter >", height=1, width=15, fg="white", bg="black")
         self.input_label.pack(side="left")
 
-        self.input_entry = tk.Entry(self.input_frame, bg="black", fg="white", insertbackground="white")
+        self.input_entry = tk.Entry(self.input_frame, bg="black", fg="white", width=15, insertbackground="white")
         self.input_entry.pack(fill="x", expand=True)
+        self.input_entry.focus_set()
         self.input_entry.bind("<Control-x>", self.clear_console)
         self.input_entry.bind("<Return>", self.execute_command)
         self.input_entry.bind("<Up>", self.history_up)
@@ -115,7 +115,7 @@ class ConsoleWindow:
     async def process_text(self, text):
         model = ArtificialInteligence()
         response = await model.generate_response(text)
-        self.print_to_console(response)
+        self.print_to_console("    " + response + "\n")
 
     def execute_command(self, event):
         command = self.input_entry.get()
