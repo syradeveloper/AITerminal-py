@@ -1,7 +1,6 @@
 # AITerminal-py
 
-![AITerminal-py](https://i.yapx.ru/XWKu8.png)
-
+<img src="https://avatars.githubusercontent.com/u/112832151?" width="70" height="70">
 _Custom python tkinter terminal with chat bot. Powered by 2501_
 
 ## Overview
