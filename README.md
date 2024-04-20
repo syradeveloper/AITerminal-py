@@ -13,12 +13,12 @@ _Custom python tkinter terminal with chat bot. Powered by 2501_
 
 ## Overview
 
-AITerminal-py is a custom Python terminal with built-in chat bot functionality. It provides various functionalities similar to a standard terminal, such as `cd`, `echo`, etc. Additionally, it includes a special command `?` to interact with the chat bot.
+AITerminal-py is a custom Python terminal(UI and CLI applications) with built-in chat bot functionality. It provides various functionalities similar to a standard terminal, such as `cd`, `echo`, etc. Additionally, it includes a special command `ai` to interact with the chat bot.
 
 ## Features
 
 - **Custom Commands**: AITerminal-py supports standard terminal commands like `cd`, `echo`, etc., for navigating directories and performing basic operations.
-- **Built-in Chat Bot**: Users can interact with a chat bot using the special command `?`, enabling them to ask questions, get assistance, or engage in conversation.
+- **Built-in Chat Bot**: Users can interact with a chat bot using the special command `ai`, enabling them to ask questions, get assistance, or engage in conversation.
 - **Extendable**: The terminal is designed to be extendable, allowing users to add new commands or integrate additional functionalities easily.
 
 ## Installation
@@ -42,6 +42,17 @@ To install AITerminal-py, follow these steps:
 
 To start using AITerminal-py, run the following command:
 
-`python main.py`
+`python CLI.py` or `python UI.py`
 
 Once the terminal is launched, you can use `help` to get list of available commands.
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to AITerminal-py, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+3. Make your changes.
+4. Commit your changes (`git commit -am 'Add some feature'`).
+5. Push to the branch (`git push origin feature/your-feature`).
+6. Create a new Pull Request.
