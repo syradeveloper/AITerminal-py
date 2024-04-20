@@ -4,7 +4,7 @@ import traceback
 import sys
 import os
 from io import StringIO
-from ai import ArtificialInteligence
+from libraries.ai import ArtificialInteligence
 
 class AiTerminalCLI(cmd.Cmd):
     intro = """┌──────────────────┬────────────────────────────────────────────────────────────┐

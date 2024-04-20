@@ -14,7 +14,7 @@ class ConsoleWindow:
         self.index = 0
         self.commands = {
             "help": (self.display_help, "Displays available commands and their descriptions"),
-            "?": (self.ai_request, "Allows the user to send an AI request | Expect delays(lags) with response", "[prompt]"),
+            "ai": (self.ai_request, "Allows the user to send an AI request | Expect delays(lags) with response", "[prompt]"),
             "echo": (self.echo_text, "Prints text to the console", "[text]"),
             "cat": (self.display_file_content, "Displays the contents of a file", "[filename]"),
             "mkdir": (self.make_directory, "Creates a new directory", "[dirname]"),
