@@ -4,6 +4,13 @@
 
 _Custom python tkinter terminal with chat bot. Powered by 2501_
 
+## TODO: 
+- **UI application**: ✅
+- **AI interface**: ✅
+- **CLI application**: ✅
+- **Phone checker**:
+- **Discussion checker**: 
+
 ## Overview
 
 AITerminal-py is a custom Python terminal with built-in chat bot functionality. It provides various functionalities similar to a standard terminal, such as `cd`, `echo`, etc. Additionally, it includes a special command `?` to interact with the chat bot.
