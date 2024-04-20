@@ -4,6 +4,7 @@ import traceback
 import sys
 import os
 from io import StringIO
+from libraries.pseudohacker import PseudoHacker
 from libraries.ai import ArtificialInteligence
 
 class AiTerminalCLI(cmd.Cmd):
@@ -28,6 +29,13 @@ class AiTerminalCLI(cmd.Cmd):
 └───────────────────────────────────────────────────────────────────────────────┘\n"""
     prompt = "[2501] > "
 
+    def do_osint(self, text):
+        """[phone number] :: Checks a phone number""" 
+        try:
+            PseudoHacker.checkphone(text)
+        except Exception as e:
+            print(f"Error: {str(e)}\n")
+
     def do_echo(self, text):
         """[text] :: Prints text to the console"""
         print(text)
@@ -39,7 +47,7 @@ class AiTerminalCLI(cmd.Cmd):
                 content = file.read()
             print(content + "\n")
         except Exception as e:
-            return f"Error: {str(e)}\n"
+            print(f"Error: {str(e)}\n")
 
     def do_mkdir(self, dirname):
         """[dirname] :: Creates a new directory"""
@@ -125,6 +133,7 @@ class AiTerminalCLI(cmd.Cmd):
     def do_clear(self, args):
         """Clears the console"""
         os.system('cls' if os.name=='nt' else 'clear')
+        print(self.intro)
 
     def do_exit(self, args):
         """Exits the console application"""

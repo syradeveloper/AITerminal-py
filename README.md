@@ -9,7 +9,7 @@ _Custom python tkinter terminal with chat bot. Powered by 2501_
 - **AI interface**: ✅
 - **CLI application**: ✅
 - **Public account for forum**:
-- **Phone checker**:
+- **Phone checker**: ✅
 - **Discussion checker**: 
 
 ## Overview
