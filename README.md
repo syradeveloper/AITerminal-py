@@ -10,7 +10,7 @@ _Custom python tkinter terminal with chat bot. Powered by 2501_
 - **CLI application**: ✅
 - **Public account for forum**:
 - **Phone checker**: ✅
-- **Discussion checker**: 
+- **Discussion checker**: ✅
 
 ## Overview
 

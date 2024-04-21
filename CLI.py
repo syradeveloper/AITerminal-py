@@ -1,11 +1,9 @@
 import cmd
 import asyncio
-import traceback
-import sys
 import os
-from io import StringIO
 from libraries.pseudohacker import PseudoHacker
 from libraries.ai import ArtificialInteligence
+from libraries.discussionchecker import DiscussionChecker
 
 class AiTerminalCLI(cmd.Cmd):
     intro = """┌──────────────────┬────────────────────────────────────────────────────────────┐
@@ -107,29 +105,6 @@ class AiTerminalCLI(cmd.Cmd):
         except Exception as e:
             print(f"Error: {str(e)}")
 
-    def do_python(self, code):
-        """[code] or [-c filename.py] | Executes Python code/Compile Python files"""
-        try:
-            if code.startswith("-c "):
-                script_path = code[3:]
-                with open(script_path, "r") as script_file:
-                    script_content = script_file.read()
-                stdout_backup = sys.stdout
-                sys.stdout = StringIO()
-                exec(script_content)
-                result = sys.stdout.getvalue()
-                print(result)
-            else:
-                stdout_backup = sys.stdout
-                sys.stdout = StringIO()
-                exec(code)
-                result = sys.stdout.getvalue()
-                print(result)
-        except Exception as e:
-            print(traceback.format_exc())
-        finally:
-            sys.stdout = stdout_backup
-
     def do_clear(self, args):
         """Clears the console"""
         os.system('cls' if os.name=='nt' else 'clear')
@@ -151,6 +126,19 @@ class AiTerminalCLI(cmd.Cmd):
         """[Text] :: Allows the user to send an AI request | Expect delays with response"""
         asyncio.run(self.process_text(command))
 
+    def do_dc(self, args):
+        """[Discussion ID] [Amount of posts] :: Allows the user to check any discussion"""
+        try:
+            discussion_id, *amount_of_posts = args.split()
+            if not amount_of_posts:
+                amount_of_posts = ['9999']
+            else:
+                amount_of_posts = amount_of_posts[:1] 
+            info = DiscussionChecker.get_info(discussion_id, int(amount_of_posts[0]))
+            print(info)
+        except Exception as e:
+            print(f"Error: {str(e)}")
+            
     async def process_text(self, text):
         model = ArtificialInteligence()
         response = await model.generate_response(text)
