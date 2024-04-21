@@ -29,9 +29,9 @@ class PseudoHacker:
     
     def checkphone(phone=None):
         if phone == None:
-            return "Invalid phone number"
+            print("Invalid phone number")
         if not PseudoHacker.is_phone(phone):
-            return "Invalid phone number"
+            print("Invalid phone number")
         else:
             print(PseudoHacker.get_info(phone))
             
